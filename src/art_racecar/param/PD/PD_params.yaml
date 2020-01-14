@@ -1,0 +1,9 @@
+turn_P: 300.0
+turn_I: 0.0
+turn_D: 1.0
+speed_P: 75.0
+speed_I: 6.5
+speed_D: 0
+controller_freq: 20
+maxDutySpeed: 1660
+minDutySpeed: 1275

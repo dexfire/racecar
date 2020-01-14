@@ -1,33 +1,33 @@
 global_costmap:
-    footprint: [[-0.305, -0.18], [-0.305, 0.18], [0.305, 0.18], [0.305, -0.18]]
+    footprint: [[-0.25, -0.20], [-0.25, 0.20], [0.25, 0.20], [0.25, -0.20]]
     footprint_padding: 0.01
-    transform_tolerance: 0.5
-    update_frequency: 10.0
-    publish_frequency: 10.0
-
+    transform_tolerance: 0.1
+    update_frequency: 15.0
+    publish_frequency: 15.0
     global_frame: /map
     robot_base_frame: /base_footprint
-    resolution: 0.10
-
-    rolling_window: true
-    width: 10.0
-    height: 10.0
+    resolution: 0.1
+    static_map: true
+    rolling_window: false
     track_unknown_space: false
-
+    width: 35.0
+    height: 8.0
     plugins: 
-        - {name: static,    type: "costmap_2d::StaticLayer"}            
-        - {name: sensor,    type: "costmap_2d::ObstacleLayer"}
-        - {name: inflation, type: "costmap_2d::InflationLayer"}
-
+        - {name: static,      type: "costmap_2d::StaticLayer"}            
+#       - {name: sensor,      type: "costmap_2d::ObstacleLayer"}
+#        - {name: gridlayer,   type: "simple_layer_namespace::GridLayer"}
+#        - {name: simplelayer, type: "simple_layer_namespace::SimpleLayer"}
+        - {name: inflation,   type: "costmap_2d::InflationLayer"}
     static:        
         map_topic: /map 
         subscribe_to_updates: true
-
     sensor:
+        obstacle_range: 4.5
+        raytrace_range: 5.5
         observation_sources: laser_scan_sensor
-        laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: scan, marking: true, clearing: true}
+        laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: scan, marking: true, clearing: true, inf_is_valid: true, expected_update_rate: 0.2}
 
     inflation:
-        inflation_radius: 0.1
-        cost_scaling_factor: 8.0
+        inflation_radius: 0.75 #1.0  #1.75
+        cost_scaling_factor: 7.0 #10.0 #2.58
 

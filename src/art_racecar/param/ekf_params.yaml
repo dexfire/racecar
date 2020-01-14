@@ -14,7 +14,7 @@ debug_out_file: /path/to/debug/file.txt
 publish_tf: true
 
 # Whether to publish the acceleration state. Defaults to false if unspecified.
-publish_acceleration: true
+publish_acceleration: false
 
 map_frame: /map              # Defaults to "map" if unspecified
 odom_frame: /odom            # Defaults to "odom" if unspecified
@@ -26,7 +26,8 @@ world_frame: /odom           # Defaults to the value of odom_frame if unspecifie
 # sensor_msgs/Imu). To add an input, simply append the next number in the sequence to its "base" name, e.g., odom0,
 # odom1, twist0, twist1, imu0, imu1, imu2, etc. The value should be the topic name. These parameters obviously have no
 # default values, and must be specified.
-odom0: /rf2o_laser_odometry/odom
+#odom0: /rf2o_laser_odometry/odom
+odom0: /wheel_encoder_odometry/odom
 
 # Each sensor reading updates some or all of the filter's state. These options give you greater control over which
 # values from each measurement are fed to the filter. For example, if you have an odometry message as input, but only
@@ -58,7 +59,7 @@ odom0_nodelay: true
 # data is converted to velocity data by differentiating the absolute pose measurements. These velocities are then
 # integrated as usual. NOTE: this only applies to sensors that provide pose measurements; setting differential to true
 # for twist measurements has no effect.
-odom0_differential: true
+odom0_differential: false
 
 # [ADVANCED] When the node starts, if this parameter is true, then the first measurement is treated as a "zero point"
 # for all future measurements. While you can achieve the same effect with the differential paremeter, the key
@@ -72,8 +73,22 @@ odom0_relative: false
 # required. Data is specified at the level of pose and twist variables, rather than for each variable in isolation.
 # For messages that have both pose and twist data, the parameter specifies to which part of the message we are applying
 # the thresholds. 
-odom0_pose_rejection_threshold: 8
-odom0_twist_rejection_threshold: 0.75
+odom0_pose_rejection_threshold: 10
+odom0_twist_rejection_threshold: 5
+
+#odom1: /wheel_encoder_odometry/odom
+#odom1_config: [false, false, false,
+#               false, false, false,
+#               true, true, false,
+#             false, false, false,
+#               false, false, false]
+#odom1_queue_size: 10
+#odom1_nodelay: true
+#odom1_differential: false
+#odom1_relative: true
+#odom1_pose_rejection_threshold: 8
+#odom1_twist_rejection_threshold: 0.75
+
 
 imu0: /imu_data
 imu0_config: [false, false, false,
@@ -84,10 +99,10 @@ imu0_config: [false, false, false,
 imu0_nodelay: false
 imu0_differential: false
 imu0_relative: true
-imu0_queue_size: 8
-imu0_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
-imu0_twist_rejection_threshold: 0.8                #
-imu0_linear_acceleration_rejection_threshold: 0.8  #
+imu0_queue_size: 10
+imu0_pose_rejection_threshold: 5                 # Note the difference in parameter names
+imu0_twist_rejection_threshold: 5               #
+imu0_linear_acceleration_rejection_threshold: 5  #
 
 # [ADVANCED] Some IMUs automatically remove acceleration due to gravity, and others don't. If yours doesn't, please set
 # this to true, and *make sure* your data conforms to REP-103, specifically, that the data is in ENU frame.

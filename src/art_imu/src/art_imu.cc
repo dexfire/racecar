@@ -3,6 +3,7 @@
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/MagneticField.h>
 #include <sensor_msgs/NavSatFix.h>
+#include <geometry_msgs/Vector3.h>
 #include <tf/tf.h>
 #include <eigen3/Eigen/Geometry> 
 #include <chrono>
@@ -47,8 +48,9 @@ static sensor_msgs::Imu msg;
 static sensor_msgs::MagneticField msg_mag;
 static sensor_msgs::NavSatFix msg_gps;
 static int fd_ = -1;
-static ros::Publisher pub, pub_mag, pub_gps;
+static ros::Publisher pub, pub_mag, pub_rpy;
 static uint8_t tmp[81];
+geometry_msgs::Vector3 rpy;
 
 static float d2f_acc(uint8_t a[2])
 {
@@ -319,8 +321,7 @@ int main(int argc, char** argv)
     double vyaw_bias = 0;
     pub = n.advertise<sensor_msgs::Imu>("/imu_data", 1);
     pub_mag = n.advertise<sensor_msgs::MagneticField>("mag", 1);
-    pub_gps = n.advertise<sensor_msgs::NavSatFix>("gps", 1);
-
+    pub_rpy = n.advertise<geometry_msgs::Vector3>("rpy", 1);
 
 	if(model == "art_imu_02a")
     {
@@ -362,7 +363,12 @@ int main(int argc, char** argv)
                     printf("check error,please wait\n");
                     continue;
                 }
+                
+                rpy.x = int16_t((data[3]<<8) + data[4]);
+                rpy.y = int16_t((data[5]<<8) + data[6]);
+                rpy.z = int16_t((data[7]<<8) + data[8]);
 
+                pub_rpy.publish(rpy);
                 Eigen::Vector3d ea0((-vyaw_bias-d2f_euler(data + 3)) * M_PI / 180.0,
                                  0,
                                   0);
@@ -387,12 +393,12 @@ int main(int argc, char** argv)
                 msg.linear_acceleration.z = d2f_acc(data + 13) * 9.81;
                 pub.publish(msg);
 
-                msg_mag.magnetic_field.x = d2f_mag(data + 21);
-                msg_mag.magnetic_field.y = d2f_mag(data + 23);
-                msg_mag.magnetic_field.z = d2f_mag(data + 25);
-                msg_mag.header.stamp = msg.header.stamp;
-                msg_mag.header.frame_id = msg.header.frame_id;
-                pub_mag.publish(msg_mag);
+                // msg_mag.magnetic_field.x = d2f_mag(data + 21);
+                // msg_mag.magnetic_field.y = d2f_mag(data + 23);
+                // msg_mag.magnetic_field.z = d2f_mag(data + 25);
+                // msg_mag.header.stamp = msg.header.stamp;
+                // msg_mag.header.frame_id = msg.header.frame_id;
+                // pub_mag.publish(msg_mag);
 
                 found = true;
             }

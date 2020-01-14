@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node pkg="art_racecar" type="PIDTest" respawn="false" name="PIDTest" output="screen">
+	<rosparam file="$(find art_racecar)/param/L1/PIDTest_params.yaml" command="load" />
+    </node>
+
+    <node pkg="k60_driver" type="k60_driver" name="k60_driver" />
+
+       <!--wheel_encoder_odometry-->
+     <include file="$(find art_racecar)/launch/includes/wheel_odometry.launch .xml" />
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+        <rosparam command="load" file="$(find art_racecar)/param/ekf_params.yaml" />
+    </node>
+<include file="$(find art_racecar)/launch/includes/art_car_tf.launch.xml" />
+<include file="$(find art_imu)/launch/imu.launch" />
+</launch>

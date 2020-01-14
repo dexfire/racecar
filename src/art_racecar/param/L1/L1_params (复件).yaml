@@ -1,0 +1,20 @@
+# L1 
+Vcmd: 2.8       #speed of car m/s       
+baseSpeed: 1640        
+turnSpeed: 1605   #pwm for motor constant speed, 1500:stop 
+# Servo
+coe: 5
+baseAngle: 90.0
+AngleGain: -11.0     
+GasGain: 1.0  
+P1: 75
+P2: 75
+I: 6.5
+D: 0
+maxDutySpeed: 1680
+minDutySpeed: 1250
+speed_90: 1.8
+speed_120: 2.4
+speed_turn: 2.2
+speed_U: 1.5
+speed_straight: 2.7

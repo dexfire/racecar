@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(art_racecar)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+ add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   joy
   move_base
+  ackermann_msgs
   tf
   roscpp
   rospy
@@ -126,9 +127,8 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
- include
-  ${catkin_INCLUDE_DIRS}
-)
+  include ${catkin_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS} include )
+include_directories( "/usr/include/eigen3" )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -218,15 +218,28 @@ install(DIRECTORY src
 
 
 
-add_executable(art_car_controller 
+add_executable(art_car_controller
 	src/art_car_controller.cpp 
 	src/art_car_controller.hpp
 	src/PID.h
+	src/PID.cpp
+  	src/ADRC.cpp
+  	src/ADRC.h
 )
+
 target_link_libraries(art_car_controller 
 	${catkin_LIBRARIES}
-	${PROJECT_SOURCE_DIR}/src/lib/libart_controller.a
+	#${PROJECT_SOURCE_DIR}/src/lib/libart_controller.a
 )
+# add_executable( MPC_Node
+#   src/Solve_speed.h 
+#   src/MPC.cpp 
+#   src/MPC_Node.cpp 
+#   src/MPC.h
+#   src/Solve_speed.cpp
+#   src/PID.h
+# 	src/PID.cpp )
+# TARGET_LINK_LIBRARIES(MPC_Node ipopt ${catkin_LIBRARIES} )
 #add_dependencies(art_car_controller art_car_generate_messages_cpp)
 
 
@@ -236,3 +249,36 @@ target_link_libraries(art_car_controller
 
 
 
+
+
+add_executable(PIDTest
+  src/PIDTest.cpp
+  src/PID.cpp
+  src/PID.h
+)
+add_dependencies(PIDTest ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(PIDTest
+  ${catkin_LIBRARIES}
+)
+
+add_executable(ADRCTest
+ src/ADRCTest.cpp
+  src/ADRC.cpp
+  src/ADRC.h
+)
+add_dependencies(ADRCTest ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(ADRCTest
+  ${catkin_LIBRARIES}
+)
+
+
+add_executable(PD_controller
+  src/PD_controller.cpp
+  src/PD_controller.h
+  src/PID.cpp
+  src/PID.h
+)
+add_dependencies(PD_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(PD_controller
+  ${catkin_LIBRARIES}
+)

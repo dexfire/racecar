@@ -1,0 +1,6 @@
+P: 250
+I: 20
+D: 0
+controller_freq: 20
+speedChange_freq: 20
+maxDutySpeed: 1680

@@ -160,7 +160,7 @@ if __name__=="__main__":
             else:              
                 twist.linear.x = speed_mid; twist.linear.y = 0; twist.linear.z = 0
                 twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = turn_mid
-                pub.publish(twist)
+                #pub.publish(twist)
 
             if (key == '\x03'):   #for ctrl + c exit
                 break

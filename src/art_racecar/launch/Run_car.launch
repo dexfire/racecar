@@ -12,7 +12,7 @@
     <!-- IMU -->
     <include file="$(find art_imu)/launch/imu.launch" />
     <!-- Car -->
-    <node pkg="art_driver" type="art_driver_node" name="art_driver_node"/>
+    <node pkg="k60_driver" type="k60_driver" name="k60_driver" output="screen"/>
 
 	
       <!-- Rviz -->

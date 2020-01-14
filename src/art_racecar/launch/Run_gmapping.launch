@@ -6,7 +6,10 @@
 
     <!-- ODOMETRY -->
     <!--rf2o_Laser_Odometry-->
-    <include file="$(find art_racecar)/launch/includes/rf2o.launch.xml" />
+    <!--<include file="$(find art_racecar)/launch/includes/rf2o.launch.xml" />-->
+    
+    <!--wheel_encoder_odometry-->
+    <include file="$(find art_racecar)/launch/includes/wheel_odometry.launch .xml" />
 
      <!-- Robot_Localization -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
@@ -17,7 +20,7 @@
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
         <remap from="scan" to="scan"/>
         <param name="map_update_interval" value="2.5"/>
-        <param name="maxUrange" value="16.0"/>
+        <param name="maxUrange" value="8.0"/>
         <param name="sigma" value="0.05"/>
         <param name="kernelSize" value="1"/>
         <param name="lstep" value="0.05"/>
@@ -31,7 +34,7 @@
         <param name="str" value="0.1"/>
         <param name="stt" value="0.2"/>
         <param name="linearUpdate" value="0.10"/>
-        <param name="angularUpdate" value="0.25"/>
+        <param name="angularUpdate" value="0.20"/>
         <param name="temporalUpdate" value="1.0"/>
         <param name="resampleThreshold" value="0.25"/>
         <param name="particles" value="30"/>
@@ -39,7 +42,7 @@
         <param name="ymin" value="-100.0"/>
         <param name="xmax" value="100.0"/>
         <param name="ymax" value="100.0"/>
-        <param name="delta" value="0.05"/>
+        <param name="delta" value="0.1"/>
         <param name="llsamplerange" value="0.01"/>
         <param name="llsamplestep" value="0.01"/>
         <param name="lasamplerange" value="0.005"/>

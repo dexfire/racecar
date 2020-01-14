@@ -1,0 +1,10 @@
+#car params
+maxspeed: 1600
+base_speed: 1560
+
+#PID params
+P: 62
+I: 10
+D: 0
+
+

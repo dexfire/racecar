@@ -6,8 +6,9 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   sensor_msgs
-)
+  geometry_msgs
 
+)
 
 catkin_package()
 
@@ -16,10 +17,10 @@ include_directories(
 )
 
 
-
 add_executable(ls01g src/main.cpp src/uart_driver.cpp)
 
 target_link_libraries(ls01g ${catkin_LIBRARIES})
+add_dependencies(ls01g ${catkin_EXPORTED_TARGETS})
 
 install(TARGETS ls01g
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

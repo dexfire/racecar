@@ -1,0 +1,17 @@
+v0 : 2
+h : 0.05 #积分步长　越小噪声越小
+r0 : 33120
+r : 200
+n0 : 2
+n1 : 3
+b0 : 0.3
+beta01 : 20
+beta02 : 120
+beta03 : 800
+delta : 0.5
+combine_mode : 4
+beta1 : 60
+beta2 : 0.1
+alpha1 : 0.8
+alpha2 : 1.5
+c : 0.7
